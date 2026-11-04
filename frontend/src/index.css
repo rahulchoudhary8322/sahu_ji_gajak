@@ -1,0 +1,130 @@
+:root {
+  --color-maroon-dark: #2A0404;
+  --color-maroon: #3B0909;
+  --color-burgundy: #4A0808;
+  --color-gold-antique: #B3862A;
+  --color-gold-royal: #D4A33D;
+  --color-gold-bright: #F5C65B;
+  --color-gold-light: #FFE49E;
+  --color-cream: #FFF0D0;
+  --color-white: #FFFFFF;
+  --color-badge-red: #D32F2F;
+  --color-badge-glow: rgba(211, 47, 47, 0.6);
+
+  --font-royal-decor: 'Cinzel Decorative', cursive, serif;
+  --font-royal: 'Cinzel', serif;
+  --font-body: 'Marcellus', serif;
+  --font-elegant: 'Philosopher', sans-serif;
+
+  --gold-gradient: linear-gradient(135deg, #FFE49E 0%, #F5C65B 30%, #D4A33D 60%, #8A5A14 100%);
+  --gold-gradient-soft: linear-gradient(180deg, #F5C65B 0%, #D4A33D 100%);
+  --maroon-gradient: linear-gradient(180deg, rgba(74, 8, 8, 0.92) 0%, rgba(42, 4, 4, 0.95) 100%);
+  --maroon-border-gradient: linear-gradient(90deg, transparent 0%, #D4A33D 15%, #F5C65B 50%, #D4A33D 85%, transparent 100%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  overflow-x: clip;
+  background-color: #120202;
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Royal Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e0303;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #B3862A 0%, #F5C65B 50%, #8A5A14 100%);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 240, 208, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #F5C65B 0%, #FFE49E 50%, #D4A33D 100%);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Royal Toast Notification */
+.royal-toast-notification {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+  background: linear-gradient(135deg, rgba(74, 8, 8, 0.96) 0%, rgba(35, 3, 3, 0.98) 100%);
+  border: 1.5px solid var(--color-gold-royal);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7), 0 0 20px rgba(212, 163, 61, 0.35);
+  border-radius: 12px;
+  padding: 14px 22px;
+  color: var(--color-gold-light);
+  font-family: var(--font-royal);
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  animation: toastSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toast-sparkle {
+  color: var(--color-gold-bright);
+  font-size: 1.2rem;
+  animation: pulseGold 2s infinite ease-in-out;
+}
+
+.toast-text {
+  font-weight: 500;
+  color: #FFF3D6;
+}
+
+@keyframes toastSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulseGold {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px #F5C65B);
+  }
+  50% {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 6px #F5C65B);
+  }
+}
+

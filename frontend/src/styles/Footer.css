@@ -1,0 +1,380 @@
+/* ==========================================================
+   ROYAL FOOTER STYLES
+   Direct visual match to reference image
+   ========================================================== */
+
+.royal-footer {
+  position: relative;
+  background: linear-gradient(180deg, #2D0505 0%, #1A0202 50%, #0E0101 100%);
+  color: #FFF0D0;
+  border-top: 3px solid #D4A33D;
+  overflow: hidden;
+}
+
+/* ================= TOP ORNAMENTAL BORDER ================= */
+.footer-top-border {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding-top: 14px;
+}
+
+.footer-border-flourish {
+  width: 140px;
+  height: 1.5px;
+}
+
+.flourish-left {
+  background: linear-gradient(90deg, transparent, #F5C65B);
+}
+
+.flourish-right {
+  background: linear-gradient(90deg, #F5C65B, transparent);
+}
+
+.footer-crown-center {
+  width: 38px;
+  height: 20px;
+  filter: drop-shadow(0 2px 4px rgba(245, 198, 91, 0.4));
+}
+
+.footer-crown-center svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ================= 4 COLUMNS GRID ================= */
+.footer-content-container {
+  max-width: 1420px;
+  margin: 0 auto;
+  padding: 48px 32px 56px 32px;
+}
+
+.footer-columns-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
+  gap: 48px;
+}
+
+/* Column Titles */
+.footer-col-title {
+  font-family: 'Cinzel', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #F5C65B;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.footer-title-divider {
+  width: 36px;
+  height: 2px;
+  background: linear-gradient(90deg, #D4A33D, transparent);
+  margin-bottom: 20px;
+}
+
+/* ================= COLUMN 1: BRAND LOGO ================= */
+.footer-col-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-logo-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.footer-crown {
+  width: 64px;
+  height: 26px;
+  margin-bottom: -4px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+}
+
+.footer-crown svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.footer-brand-plaque {
+  background: radial-gradient(ellipse at center, #540808 0%, #300404 70%, #170101 100%);
+  border: 1.5px solid #F5C65B;
+  border-radius: 6px;
+  padding: 6px 16px 5px 16px;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.8),
+    0 4px 12px rgba(0, 0, 0, 0.6),
+    0 0 12px rgba(212, 163, 61, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-brand-title {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFE49E 40%, #F5C65B 80%, #D4A33D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.footer-flourish-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 1px;
+}
+
+.mini-line {
+  width: 14px;
+  height: 1px;
+  background: #F5C65B;
+}
+
+.footer-brand-sub {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #FFF0D0;
+}
+
+.footer-brand-tagline {
+  font-family: 'Marcellus', serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #FFF0D0;
+  opacity: 0.9;
+  margin-bottom: 20px;
+}
+
+/* Social Media Icons */
+.footer-social-icons {
+  display: flex;
+  gap: 12px;
+}
+
+.social-icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.2px solid #D4A33D;
+  background: rgba(0, 0, 0, 0.4);
+  color: #FFF0D0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+.social-icon-btn svg {
+  width: 17px;
+  height: 17px;
+}
+
+.social-icon-btn:hover {
+  background: #D4A33D;
+  color: #2D0505;
+  border-color: #F5C65B;
+  box-shadow: 0 0 14px rgba(245, 198, 91, 0.6);
+  transform: translateY(-2px);
+}
+
+/* ================= QUICK LINKS & CUSTOMER CARE LISTS ================= */
+.footer-links-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-links-list a {
+  font-family: 'Marcellus', serif;
+  font-size: 15px;
+  color: #FFF0D0;
+  opacity: 0.9;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.footer-links-list a:hover {
+  color: #F5C65B;
+  opacity: 1;
+  padding-left: 6px;
+  text-shadow: 0 0 8px rgba(245, 198, 91, 0.5);
+}
+
+/* ================= CONTACT US LIST ================= */
+.footer-contact-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.contact-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.contact-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.contact-text {
+  font-family: 'Marcellus', serif;
+  font-size: 14.5px;
+  color: #FFF0D0;
+  line-height: 1.5;
+  opacity: 0.95;
+  transition: color 0.2s ease;
+}
+
+a.contact-text:hover {
+  color: #F5C65B;
+}
+
+/* ================= BOTTOM BAR ================= */
+.footer-bottom-bar {
+  background: #0E0101;
+  border-top: 1px solid rgba(212, 163, 61, 0.3);
+  padding: 18px 32px;
+}
+
+.footer-bottom-container {
+  max-width: 1420px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-copyright {
+  font-family: 'Marcellus', serif;
+  font-size: 13.5px;
+  color: #FFF0D0;
+  opacity: 0.85;
+}
+
+/* Payment Badges */
+.footer-payment-badges {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.payment-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 163, 61, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+  font-family: sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.payment-badge:hover {
+  border-color: #F5C65B;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.razorpay-badge {
+  color: #0C2340;
+  background: #FFFFFF;
+  border-color: #0C2340;
+  gap: 4px;
+}
+
+.badge-glow-icon {
+  color: #0070F3;
+  font-size: 11px;
+}
+
+.upi-badge {
+  background: #FFFFFF;
+  color: #097938;
+  border-color: #097938;
+}
+
+.upi-symbol {
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.visa-badge {
+  background: #1A1F71;
+  color: #FFFFFF;
+  border-color: #F7B600;
+}
+
+.visa-text {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #FFFFFF;
+}
+
+.mastercard-badge {
+  background: #000000;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.mc-circle {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.mc-red {
+  background: #EB001B;
+  margin-right: -5px;
+}
+
+.mc-yellow {
+  background: #F79E1B;
+  opacity: 0.95;
+}
+
+/* ================= RESPONSIVE BREAKPOINTS ================= */
+@media (max-width: 980px) {
+  .footer-columns-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-columns-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .footer-bottom-container {
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+  }
+}
+

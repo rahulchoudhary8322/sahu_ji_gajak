@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>All Videos Check</title>
+  <style>
+    body {
+      margin: 0;
+      background: #180303;
+      color: #fff;
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    h2 { text-align: center; color: gold; margin-bottom: 20px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .card {
+      background: #2a0505;
+      border: 1.5px solid #d4a33d;
+      border-radius: 8px;
+      overflow: hidden;
+      padding: 8px;
+      text-align: center;
+    }
+    .card h4 {
+      margin: 4px 0 8px 0;
+      font-size: 14px;
+      color: #ffe49e;
+    }
+    video {
+      width: 100%;
+      height: 220px;
+      background: #000;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Shree Shahi Gajak - All 12 Videos Verification Grid</h2>
+  <div class="grid" id="grid"></div>
+  <script>
+    const grid = document.getElementById('grid');
+    for (let i = 1; i <= 12; i++) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <h4>Video ${i}</h4>
+        <video id="v${i}" src="/video/video ${i}.mp4" muted playsinline></video>
+      `;
+      grid.appendChild(card);
+      const v = card.querySelector('video');
+      v.addEventListener('loadeddata', () => {
+        v.currentTime = 2.0;
+      });
+    }
+  </script>
+</body>
+</html>
+

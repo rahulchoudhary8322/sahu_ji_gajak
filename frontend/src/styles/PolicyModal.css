@@ -1,0 +1,164 @@
+/* ==========================================================
+   ROYAL POLICY & INFO MODAL STYLES
+   ========================================================== */
+
+.policy-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(10px);
+  z-index: 3600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.policy-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  background: linear-gradient(180deg, #FAF3E0 0%, #FFFDF8 100%);
+  border: 2px solid #D4A33D;
+  border-radius: 12px;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.9),
+    0 0 35px rgba(212, 163, 61, 0.35);
+  color: #2D0505;
+  overflow: hidden;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.policy-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 24px 28px 18px 28px;
+  border-bottom: 1.5px solid rgba(212, 163, 61, 0.35);
+  background: #FFF8EA;
+}
+
+.policy-badge {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #8C1D1D;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.policy-modal-title {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: #3B0909;
+  margin: 4px 0 2px 0;
+}
+
+.policy-modal-subtitle {
+  font-family: 'Marcellus', serif;
+  font-size: 13.5px;
+  color: #664040;
+  margin: 0;
+}
+
+.policy-modal-close-btn {
+  background: none;
+  border: 1.5px solid #D4A33D;
+  color: #3B0909;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.policy-modal-close-btn:hover {
+  background: #D4A33D;
+  color: #FFFFFF;
+}
+
+.policy-modal-body {
+  padding: 24px 28px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.policy-item-box {
+  background: #FFFFFF;
+  border: 1px solid rgba(212, 163, 61, 0.35);
+  border-radius: 8px;
+  padding: 14px 18px;
+}
+
+.policy-q {
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #3B0909;
+  margin: 0 0 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.q-sparkle {
+  color: #D4A33D;
+  font-size: 11px;
+}
+
+.policy-a {
+  font-family: 'Marcellus', serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #4A0808;
+  margin: 0;
+  padding-left: 19px;
+}
+
+.policy-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 28px;
+  background: #FFF8EA;
+  border-top: 1px solid rgba(212, 163, 61, 0.35);
+}
+
+.policy-footer-note {
+  font-family: 'Marcellus', serif;
+  font-size: 12.5px;
+  color: #664040;
+  margin: 0;
+}
+
+.policy-close-action-btn {
+  background: linear-gradient(180deg, #5A0808 0%, #300404 100%);
+  color: #FFF0D0;
+  border: 1.5px solid #D4A33D;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.policy-close-action-btn:hover {
+  background: #7A0C0C;
+  border-color: #F5C65B;
+  color: #FFFFFF;
+}
+

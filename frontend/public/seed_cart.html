@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seeding Royal Test Data</title>
+  <script>
+    const sampleCart = [
+      {
+        id: 1,
+        name: 'Til Gajak',
+        price: 349,
+        regular_price: 399,
+        weight: '500g',
+        cart_key: '1-500g',
+        quantity: 2,
+        image: '/assets/products/til_gajak_hd.jpg'
+      },
+      {
+        id: 4,
+        name: 'Dry Fruit Gajak',
+        price: 499,
+        regular_price: 599,
+        weight: '500g',
+        cart_key: '4-500g',
+        quantity: 1,
+        image: '/assets/products/dry_fruit_gajak_hd.jpg'
+      }
+    ];
+
+    const sampleWishlist = [
+      {
+        id: 2,
+        name: 'Gur Gajak',
+        category: 'Gur Gajak',
+        price: 329,
+        regular_price: 379,
+        weight: '500g',
+        rating: 4.8,
+        reviews: '1k+',
+        image: '/assets/products/gur_gajak_hd.jpg',
+        is_bestseller: true
+      },
+      {
+        id: 6,
+        name: 'Dry Fruit Rewari',
+        category: 'Rewari',
+        price: 449,
+        regular_price: 499,
+        weight: '500g',
+        rating: 4.9,
+        reviews: '1.1k+',
+        image: '/assets/products/dry_fruit_rewari_hd.jpg',
+        is_bestseller: false
+      },
+      {
+        id: 8,
+        name: 'Premium Gajak',
+        category: 'Premium Gajak',
+        price: 549,
+        regular_price: 649,
+        weight: '500g',
+        rating: 5.0,
+        reviews: '2k+',
+        image: '/assets/products/premium_gajak_hd.jpg',
+        is_bestseller: true
+      }
+    ];
+
+    try {
+      localStorage.setItem('shahi_cart', JSON.stringify(sampleCart));
+      localStorage.setItem('shahi_wishlist', JSON.stringify(sampleWishlist));
+    } catch(e) {
+      console.error(e);
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const target = params.get('target') || '#cart';
+    window.location.replace('/' + target);
+  </script>
+</head>
+<body style="background:#3B0707; color:#D4A33D; display:flex; align-items:center; justify-content:center; height:100vh; font-family:sans-serif;">
+  <h3>Entering the Royal Palace...</h3>
+</body>
+</html>

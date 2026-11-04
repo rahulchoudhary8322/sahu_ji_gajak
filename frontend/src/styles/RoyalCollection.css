@@ -1,0 +1,525 @@
+/* ==========================================================
+   OUR ROYAL COLLECTION - 8 PRODUCTS STYLES
+   With Scenic Rajasthani Mahal (Palace) Background & Compact Royal Spacing
+   ========================================================== */
+
+.royal-collection-section {
+  position: relative;
+  background-color: #FAF4E6;
+  padding: 34px 28px 56px 28px;
+  color: #2E0505;
+  overflow: hidden;
+  border-top: 3px solid #D4A33D;
+  border-bottom: 3px solid #D4A33D;
+}
+
+/* ================= 1. SCENIC PALACE BACKGROUND LAYER ================= */
+.collection-palace-bg-layer {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(180deg, rgba(253, 248, 237, 0.18) 0%, rgba(250, 242, 224, 0.35) 50%, rgba(246, 235, 212, 0.50) 100%),
+    url('/assets/royal-palace-bg.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  opacity: 0.96;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ================= 2. LEFT & RIGHT PALACE FLANK ILLUSTRATIONS ================= */
+.collection-palace-flank {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 140px;
+  pointer-events: none;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  opacity: 0.75;
+  transition: opacity 0.3s ease;
+}
+
+.flank-left {
+  left: 6px;
+}
+
+.flank-right {
+  right: 6px;
+}
+
+.flank-img {
+  width: 100%;
+  height: 92%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(179, 134, 42, 0.25));
+}
+
+@media (max-width: 1200px) {
+  .collection-palace-flank {
+    display: none;
+  }
+}
+
+/* ================= 3. FOUR ORNAMENTAL CORNER BRACKETS ================= */
+.section-corner-bracket {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-color: #D4A33D;
+  border-style: solid;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.corner-top-left {
+  top: 10px;
+  left: 10px;
+  border-width: 2.5px 0 0 2.5px;
+  border-top-left-radius: 6px;
+}
+
+.corner-top-right {
+  top: 10px;
+  right: 10px;
+  border-width: 2.5px 2.5px 0 0;
+  border-top-right-radius: 6px;
+}
+
+.corner-bottom-left {
+  bottom: 10px;
+  left: 10px;
+  border-width: 0 0 2.5px 2.5px;
+  border-bottom-left-radius: 6px;
+}
+
+.corner-bottom-right {
+  bottom: 10px;
+  right: 10px;
+  border-width: 0 2.5px 2.5px 0;
+  border-bottom-right-radius: 6px;
+}
+
+/* ================= 4. SECTION CONTAINER & COMPACT HEADER ================= */
+.collection-container {
+  max-width: 1420px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 4;
+}
+
+.collection-header-wrapper {
+  text-align: center;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Arched Royal Maroon & Gold Badge */
+.collection-royal-badge {
+  position: relative;
+  background: radial-gradient(ellipse at center, #6A0A0A 0%, #460606 60%, #260202 100%);
+  border: 1.8px solid #D4A33D;
+  border-radius: 28px / 12px;
+  padding: 8px 36px 8px 36px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 
+    inset 0 0 0 1px rgba(245, 198, 91, 0.4),
+    0 6px 18px rgba(74, 8, 8, 0.25),
+    0 0 16px rgba(212, 163, 61, 0.35);
+  margin-top: 4px;
+}
+
+.collection-royal-badge::before {
+  content: '';
+  position: absolute;
+  top: 2.5px;
+  left: 2.5px;
+  right: 2.5px;
+  bottom: 2.5px;
+  border: 1px dashed rgba(255, 240, 208, 0.3);
+  border-radius: 26px / 10px;
+  pointer-events: none;
+}
+
+.badge-crown-crest {
+  position: absolute;
+  top: -14px;
+  width: 48px;
+  height: 22px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.65));
+}
+
+.badge-crown-crest svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.badge-text-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.badge-flourish-wing {
+  color: #F5C65B;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.collection-main-heading {
+  font-family: 'Philosopher', 'Marcellus', serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFF2B8 35%, #F5C65B 75%, #D4A33D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.75));
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* Subtitle Row with Golden Accent Lines */
+.collection-subtitle-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 6px;
+}
+
+.sub-gold-line {
+  width: 45px;
+  height: 1.5px;
+}
+
+.line-left {
+  background: linear-gradient(90deg, transparent, #D4A33D);
+}
+
+.line-right {
+  background: linear-gradient(90deg, #D4A33D, transparent);
+}
+
+.collection-subtitle {
+  font-family: 'Marcellus', serif;
+  font-size: 16px;
+  font-style: italic;
+  color: #4A0808;
+  letter-spacing: 0.8px;
+  margin: 0;
+}
+
+/* ================= 5. THE 8 PRODUCTS GRID (4 + 4) ================= */
+.royal-products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* Individual Product Card */
+.royal-product-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1.5px solid #D4A33D;
+  border-radius: 10px;
+  padding: 13px 13px 15px 13px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease;
+  box-shadow: 
+    0 4px 14px rgba(74, 8, 8, 0.08),
+    0 0 10px rgba(212, 163, 61, 0.16);
+}
+
+.royal-product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 14px 30px rgba(74, 8, 8, 0.16),
+    0 0 20px rgba(212, 163, 61, 0.32);
+  border-color: #F5C65B;
+  background: #FFFFFF;
+}
+
+/* Wishlist Button */
+.card-wishlist-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(212, 163, 61, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.card-wishlist-btn:hover {
+  background: #FFF0D0;
+  transform: scale(1.12);
+}
+
+.card-wishlist-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Product Thumbnail */
+.product-image-frame {
+  position: relative;
+  width: 100%;
+  height: 168px;
+  background: radial-gradient(circle at center, #FFFDF8 0%, #F5ECDA 100%);
+  border-radius: 7px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 11px;
+  border: 1px solid rgba(212, 163, 61, 0.25);
+}
+
+.product-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  transition: transform 0.38s ease;
+}
+
+.royal-product-card:hover .product-thumbnail {
+  transform: scale(1.05);
+}
+
+.product-tag-bestseller {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: linear-gradient(135deg, #B71C1C 0%, #7F0000 100%);
+  color: #FFF2B8;
+  font-family: 'Cinzel', serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2.5px 7px;
+  border-radius: 3px;
+  border: 1px solid #D4A33D;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  letter-spacing: 0.5px;
+}
+
+/* Product Details */
+.product-details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.product-name {
+  font-family: 'Cinzel', serif;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: #380707;
+  letter-spacing: 0.5px;
+  margin: 0 0 5px 0;
+  text-align: center;
+}
+
+/* Rating Stars */
+.product-rating-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 7px;
+}
+
+.stars-gold {
+  color: #D4A33D;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.rating-score {
+  font-family: 'Marcellus', serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #4A0808;
+}
+
+.review-count {
+  font-family: 'Marcellus', serif;
+  font-size: 11px;
+  color: #8C6A30;
+}
+
+/* Price Row */
+.product-price-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 11px;
+}
+
+.currency-symbol {
+  font-family: 'Marcellus', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #6A0A0A;
+}
+
+.price-value {
+  font-family: 'Marcellus', serif;
+  font-size: 21px;
+  font-weight: 700;
+  color: #6A0A0A;
+}
+
+.original-price {
+  font-family: 'Marcellus', serif;
+  font-size: 12.5px;
+  color: #9C8260;
+  text-decoration: line-through;
+}
+
+.weight-badge {
+  font-family: 'Marcellus', serif;
+  font-size: 10.5px;
+  color: #6B4E1B;
+  background: #FFF4DC;
+  border: 1px solid #D4A33D;
+  padding: 1px 6px;
+  border-radius: 3px;
+  margin-left: 2px;
+}
+
+/* Action Buttons Row */
+.product-actions-row {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.card-add-to-cart-btn {
+  flex: 1;
+  background: linear-gradient(180deg, #620A0A 0%, #460606 50%, #2A0303 100%);
+  border: 1.2px solid #D4A33D;
+  border-radius: 5px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  color: #FFF0D0;
+  font-family: 'Cinzel', serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  box-shadow: 0 2px 6px rgba(59, 9, 9, 0.25);
+}
+
+.card-add-to-cart-btn:hover {
+  background: linear-gradient(180deg, #7A0C0C 0%, #580808 100%);
+  border-color: #F5C65B;
+  color: #FFE49E;
+  box-shadow: 0 4px 12px rgba(212, 163, 61, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-cart-icon {
+  width: 14px;
+  height: 14px;
+  color: #F5C65B;
+}
+
+.card-view-arrow-btn {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(180deg, #620A0A 0%, #460606 50%, #2A0303 100%);
+  border: 1.2px solid #D4A33D;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #F5C65B;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  flex-shrink: 0;
+}
+
+.card-view-arrow-btn:hover {
+  background: linear-gradient(180deg, #7A0C0C 0%, #580808 100%);
+  border-color: #F5C65B;
+  color: #FFE49E;
+  transform: translateY(-1px);
+}
+
+.card-view-arrow-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ================= RESPONSIVE LAYOUTS ================= */
+@media (max-width: 1024px) {
+  .royal-products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .royal-collection-section {
+    padding: 24px 14px 38px 14px;
+  }
+
+  .collection-royal-badge {
+    padding: 6px 20px;
+  }
+
+  .collection-main-heading {
+    font-size: 19px;
+  }
+
+  .royal-products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .product-image-frame {
+    height: 125px;
+  }
+
+  .product-name {
+    font-size: 13px;
+  }
+
+  .price-value {
+    font-size: 17px;
+  }
+
+  .card-add-to-cart-btn {
+    font-size: 10px;
+    padding: 6px 6px;
+  }
+}

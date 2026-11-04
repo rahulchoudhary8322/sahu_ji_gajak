@@ -1,0 +1,510 @@
+/* ==========================================================
+   SHREE SHAHI GAJAK - ORDER CONFIRMATION PAGE STYLES
+   ========================================================== */
+
+.order-confirmation-wrapper {
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 10%, #3B0909 0%, #1e0303 60%, #100202 100%);
+  color: #FFF0D0;
+  padding: 40px 20px 80px;
+}
+
+.order-conf-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Celebration Hero */
+.conf-celebration-hero {
+  text-align: center;
+  background: linear-gradient(180deg, rgba(65, 8, 8, 0.95) 0%, rgba(30, 3, 3, 0.98) 100%);
+  border: 1.8px solid #D4A33D;
+  border-radius: 16px;
+  padding: 40px 24px 30px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(212, 163, 61, 0.35);
+  margin-bottom: 35px;
+  position: relative;
+  overflow: hidden;
+}
+
+.conf-celebration-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #FFE49E, #F5C65B, #D4A33D, transparent);
+}
+
+.conf-emblem-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #FFE49E 0%, #D4A33D 100%);
+  border-radius: 50%;
+  margin-bottom: 14px;
+  box-shadow: 0 0 20px rgba(245, 198, 91, 0.6);
+}
+
+.conf-emblem-crown {
+  font-size: 2rem;
+}
+
+.conf-royal-proclamation {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #F5C65B;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.conf-hero-title {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: 2.3rem;
+  color: #FFE49E;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8), 0 0 24px rgba(245, 198, 91, 0.4);
+}
+
+.conf-hero-desc {
+  font-family: 'Philosopher', 'Marcellus', serif;
+  font-size: 1.1rem;
+  color: rgba(255, 240, 208, 0.9);
+  max-width: 720px;
+  margin: 0 auto 28px;
+  line-height: 1.5;
+}
+
+.conf-order-meta-pills {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.meta-pill-item {
+  background: rgba(18, 2, 2, 0.7);
+  border: 1px solid rgba(212, 163, 61, 0.35);
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-family: 'Marcellus', serif;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.meta-pill-label {
+  color: rgba(255, 240, 208, 0.65);
+}
+
+.meta-pill-value {
+  color: #FFF0D0;
+}
+
+.meta-pill-value.gold {
+  color: #FFE49E;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+}
+
+.status-badge-live {
+  background: rgba(46, 125, 50, 0.3);
+  border: 1px solid #4CAF50;
+  color: #81C784;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Details Grid */
+.conf-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 30px;
+}
+
+.conf-card {
+  background: linear-gradient(180deg, rgba(55, 7, 7, 0.92) 0%, rgba(26, 3, 3, 0.96) 100%);
+  border: 1.5px solid #D4A33D;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.conf-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 22px;
+  background: rgba(18, 2, 2, 0.6);
+  border-bottom: 1px solid rgba(212, 163, 61, 0.25);
+}
+
+.conf-card-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.15rem;
+  color: #FFE49E;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.conf-badge-count {
+  background: rgba(212, 163, 61, 0.2);
+  color: #F5C65B;
+  font-size: 0.78rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.conf-card-body {
+  padding: 22px;
+}
+
+/* Items List */
+.conf-items-table {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.conf-item-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(212, 163, 61, 0.15);
+}
+
+.conf-item-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.conf-item-image-box {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 163, 61, 0.4);
+  flex-shrink: 0;
+}
+
+.conf-item-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.conf-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.conf-product-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  color: #FFF0D0;
+  margin: 0 0 5px 0;
+}
+
+.conf-product-meta {
+  display: flex;
+  gap: 8px;
+  font-size: 0.8rem;
+}
+
+.meta-weight-badge {
+  background: rgba(212, 163, 61, 0.2);
+  color: #F5C65B;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.meta-qty-tag {
+  color: rgba(255, 240, 208, 0.65);
+}
+
+.conf-item-prices {
+  text-align: right;
+}
+
+.conf-unit-price {
+  display: block;
+  font-size: 0.8rem;
+  color: rgba(255, 240, 208, 0.55);
+}
+
+.conf-subtotal-price {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  color: #FFE49E;
+}
+
+/* Summary Breakdown */
+.conf-summary-breakdown {
+  border-top: 1.5px solid rgba(212, 163, 61, 0.3);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: 'Marcellus', serif;
+  font-size: 0.95rem;
+}
+
+.conf-sum-row {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(255, 240, 208, 0.85);
+}
+
+.conf-sum-row.discount {
+  color: #81C784;
+}
+
+.conf-sum-row.grand-total {
+  border-top: 1px dashed rgba(212, 163, 61, 0.4);
+  padding-top: 12px;
+  margin-top: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #FFF0D0;
+}
+
+.grand-price {
+  font-size: 1.4rem;
+  color: #FFE49E;
+  text-shadow: 0 0 10px rgba(245, 198, 91, 0.4);
+}
+
+/* Right Column Details */
+.address-body {
+  font-family: 'Marcellus', serif;
+}
+
+.customer-full-name {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  color: #FFE49E;
+  margin: 0 0 8px 0;
+}
+
+.address-line {
+  color: rgba(255, 240, 208, 0.85);
+  margin: 0 0 4px 0;
+  line-height: 1.4;
+}
+
+.address-line.country {
+  font-weight: 600;
+  color: #F5C65B;
+  margin-top: 4px;
+}
+
+.contact-meta-group {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(212, 163, 61, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.88rem;
+  color: #FFE49E;
+}
+
+.contact-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Payment Method Card */
+.payment-confirmation-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.payment-conf-icon {
+  font-size: 1.6rem;
+}
+
+.payment-conf-title {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  color: #FFE49E;
+  margin-bottom: 4px;
+}
+
+.payment-conf-note {
+  font-family: 'Marcellus', serif;
+  font-size: 0.85rem;
+  color: rgba(255, 240, 208, 0.7);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Quality Seal Card */
+.quality-seal-card {
+  text-align: center;
+  background: rgba(18, 2, 2, 0.7);
+  border: 1px dashed #D4A33D;
+  padding: 20px;
+}
+
+.seal-crest {
+  font-size: 1.8rem;
+  color: #F5C65B;
+  margin-bottom: 8px;
+}
+
+.seal-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  color: #FFE49E;
+  margin: 0 0 6px 0;
+}
+
+.seal-text {
+  font-family: 'Marcellus', serif;
+  font-size: 0.82rem;
+  color: rgba(255, 240, 208, 0.75);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Action Buttons Stack */
+.conf-actions-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.conf-btn-gold {
+  width: 100%;
+  background: linear-gradient(135deg, #FFE49E 0%, #F5C65B 30%, #D4A33D 100%);
+  color: #2A0404;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 24px;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+.conf-btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(245, 198, 91, 0.5);
+}
+
+.conf-btn-outline {
+  width: 100%;
+  background: transparent;
+  border: 1.5px solid rgba(212, 163, 61, 0.4);
+  color: #FFF0D0;
+  border-radius: 30px;
+  padding: 12px 24px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.conf-btn-outline:hover {
+  border-color: #F5C65B;
+  background: rgba(212, 163, 61, 0.15);
+  color: #FFE49E;
+}
+
+/* Loading & Error Screens */
+.order-conf-loading-screen,
+.order-conf-error-screen {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.conf-loading-box,
+.conf-error-card {
+  max-width: 480px;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(65, 8, 8, 0.95), rgba(30, 3, 3, 0.98));
+  border: 1.8px solid #D4A33D;
+  border-radius: 16px;
+  padding: 40px 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.conf-crown-pulse {
+  font-size: 3rem;
+  animation: pulseCrown 1.5s infinite ease-in-out;
+  margin-bottom: 16px;
+}
+
+@keyframes pulseCrown {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+.conf-loading-title,
+.conf-error-title {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: 1.6rem;
+  color: #FFE49E;
+  margin-bottom: 10px;
+}
+
+.conf-loading-subtitle,
+.conf-error-msg {
+  font-family: 'Marcellus', serif;
+  font-size: 0.95rem;
+  color: rgba(255, 240, 208, 0.8);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .conf-details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .conf-hero-title {
+    font-size: 1.7rem;
+  }
+
+  .conf-order-meta-pills {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .meta-pill-item {
+    justify-content: space-between;
+  }
+}
+
