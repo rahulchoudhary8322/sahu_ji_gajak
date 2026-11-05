@@ -8,6 +8,8 @@ export default function ScrollAnimation() {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const imagesRef = useRef(new Array(TOTAL_FRAMES));
+  const mobileImgRef = useRef(null);
+  const logoImgRef = useRef(null);
   const targetFrameRef = useRef(0);
   const currentFrameRef = useRef(0);
   const animFrameIdRef = useRef(null);
@@ -24,6 +26,32 @@ export default function ScrollAnimation() {
     return `/frames/ezgif-frame-${frameNum}.jpg`;
   };
 
+  // Preload dedicated full-screen mobile elephant artwork & royal crest
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const mImg = new Image();
+    mImg.onload = () => {
+      mobileImgRef.current = mImg;
+      if (window.innerWidth <= 768) {
+        renderFrame(0);
+      }
+    };
+    mImg.src = '/assets/royal-elephant-mobile.jpg';
+    if (mImg.complete && mImg.naturalWidth > 0) {
+      mobileImgRef.current = mImg;
+    }
+
+    const crest = new Image();
+    crest.onload = () => {
+      logoImgRef.current = crest;
+    };
+    crest.src = '/assets/royal-logo-badge.png';
+    if (crest.complete && crest.naturalWidth > 0) {
+      logoImgRef.current = crest;
+    }
+  }, []);
+
   // Render a specific frame on the canvas with cover sizing
   const renderFrame = useCallback((frameIndex) => {
     const canvas = canvasRef.current;
@@ -31,6 +59,96 @@ export default function ScrollAnimation() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return false;
 
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const canvasWidth = canvas.clientWidth || window.innerWidth;
+    const canvasHeight = canvas.clientHeight || window.innerHeight;
+
+    const actualWidth = Math.round(canvasWidth * dpr);
+    const actualHeight = Math.round(canvasHeight * dpr);
+
+    if (canvas.width !== actualWidth || canvas.height !== actualHeight) {
+      canvas.width = actualWidth;
+      canvas.height = actualHeight;
+    }
+
+    const isPortraitMobile = canvasWidth <= 768 || (canvasWidth / canvasHeight < 1.0);
+
+    // =========================================================================
+    // 1. MOBILE PHONE: DEDICATED FULL-SCREEN FRONT-FACING ROYAL ELEPHANT
+    //    Single unified full-screen animation, elephant comes forward from front!
+    // =========================================================================
+    if (isPortraitMobile) {
+      const mImg = mobileImgRef.current;
+      if (!mImg || !mImg.complete || mImg.naturalWidth === 0) {
+        ctx.fillStyle = '#120202';
+        ctx.fillRect(0, 0, actualWidth, actualHeight);
+        return false;
+      }
+
+      // True 100% full-screen cover on mobile: ZERO black bars, NO double layer!
+      const baseScale = Math.max(actualWidth / mImg.naturalWidth, actualHeight / mImg.naturalHeight);
+
+      // Smooth scroll pacing: elephant walks majestically down the red carpet towards patron
+      const progress = Math.min(1, Math.max(0, currentFrameRef.current / (TOTAL_FRAMES - 1)));
+      const zoom = 1.0 + progress * 0.42;
+      const scale = baseScale * zoom;
+
+      const drawW = Math.round(mImg.naturalWidth * scale);
+      const drawH = Math.round(mImg.naturalHeight * scale);
+      const drawX = Math.round((actualWidth - drawW) / 2);
+
+      // Smooth focal camera tracking onto the elephant's ornate forehead & gold jewelry
+      const focalYRatio = 0.52 - progress * 0.05;
+      const drawY = Math.round(actualHeight * 0.5 - (mImg.naturalHeight * focalYRatio) * scale);
+
+      ctx.drawImage(mImg, drawX, drawY, drawW, drawH);
+
+      // Warm royal golden sunlight & ambient glow as patron approaches
+      if (progress > 0.04) {
+        const glowAlpha = Math.min(0.24, progress * 0.3);
+        const radialGlow = ctx.createRadialGradient(
+          actualWidth / 2,
+          actualHeight * 0.48,
+          actualWidth * 0.1,
+          actualWidth / 2,
+          actualHeight * 0.48,
+          actualWidth * 0.8
+        );
+        radialGlow.addColorStop(0, `rgba(245, 198, 91, ${glowAlpha})`);
+        radialGlow.addColorStop(0.5, `rgba(212, 163, 61, ${glowAlpha * 0.4})`);
+        radialGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = radialGlow;
+        ctx.fillRect(0, 0, actualWidth, actualHeight);
+      }
+
+      // Royal 3D Gold Sahu Ji Gajak crest reveal (from 35% to 100% scroll)
+      if (progress > 0.35 && logoImgRef.current?.complete) {
+        const logoProgress = Math.min(1, (progress - 0.35) / 0.45);
+        const logoImg = logoImgRef.current;
+        const logoTargetW = Math.min(actualWidth * 0.72, 330 * dpr);
+        const logoTargetH = logoTargetW * (logoImg.naturalHeight / logoImg.naturalWidth);
+        const logoScale = 0.88 + logoProgress * 0.12;
+        const finalW = logoTargetW * logoScale;
+        const finalH = logoTargetH * logoScale;
+        const logoX = (actualWidth - finalW) / 2;
+        const logoY = actualHeight * 0.42 - finalH / 2;
+
+        ctx.save();
+        ctx.globalAlpha = Math.min(1, logoProgress * 1.25);
+        ctx.shadowColor = 'rgba(212, 163, 61, 0.9)';
+        ctx.shadowBlur = 25 * dpr;
+        ctx.drawImage(logoImg, logoX, logoY, finalW, finalH);
+        ctx.restore();
+      }
+
+      lastRenderedIndexRef.current = frameIndex;
+      hasRenderedInitialRef.current = true;
+      return true;
+    }
+
+    // =========================================================================
+    // 2. LAPTOP / DESKTOP: 100% ORIGINAL 269-FRAME SEQUENCE (UNTOUCHED!)
+    // =========================================================================
     // Retrieve target image or nearest loaded fallback
     let img = imagesRef.current[frameIndex];
     if (!img || !img.complete || img.naturalWidth === 0) {
@@ -56,93 +174,20 @@ export default function ScrollAnimation() {
       return false;
     }
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const canvasWidth = canvas.clientWidth || window.innerWidth;
-    const canvasHeight = canvas.clientHeight || window.innerHeight;
+    // Desktop landscape: pure original cover calculation without modification
+    const scale = Math.max(actualWidth / 1920, actualHeight / 1080);
+    const drawW = 1920 * scale;
+    const drawH = 1080 * scale;
+    const drawX = (actualWidth - drawW) / 2;
+    const drawY = (actualHeight - drawH) / 2;
 
-    const actualWidth = Math.round(canvasWidth * dpr);
-    const actualHeight = Math.round(canvasHeight * dpr);
-
-    if (canvas.width !== actualWidth || canvas.height !== actualHeight) {
-      canvas.width = actualWidth;
-      canvas.height = actualHeight;
-    }
-
-    // Always clear canvas before painting to eliminate ghosting/artefacts
-    ctx.fillStyle = '#120202';
-    ctx.fillRect(0, 0, actualWidth, actualHeight);
-
-    // Responsive framing calculation:
-    // On mobile portrait (width <= 768px or tall aspect ratio < 1.15),
-    // fit the full 1920 width so both royal elephants on the left and right
-    // flanks and the grand palace gate are 100% visible and uncropped.
-    const isPortraitMobile = canvasWidth <= 768 || (canvasWidth / canvasHeight < 1.15);
-
-    if (isPortraitMobile) {
-      // 1. LAYER 1: Full-Screen Ambient Palace Fill (Cover 100vh)
-      // Scales the palace scene to cover the entire phone screen from top to bottom.
-      // This eliminates ALL pitch-black bars on mobile screens!
-      const bgScale = Math.max(actualWidth / 1920, actualHeight / 1080);
-      const bgW = Math.round(1920 * bgScale);
-      const bgH = Math.round(1080 * bgScale);
-      const bgX = Math.round((actualWidth - bgW) / 2);
-      const bgY = Math.round((actualHeight - bgH) / 2);
-
-      // Draw full-screen ambient palace backdrop
-      ctx.drawImage(img, bgX, bgY, bgW, bgH);
-
-      // Ambient palace atmospheric overlay (deep maroon gradient)
-      const ambientGrad = ctx.createLinearGradient(0, 0, 0, actualHeight);
-      ambientGrad.addColorStop(0, 'rgba(18, 2, 2, 0.75)');
-      ambientGrad.addColorStop(0.25, 'rgba(18, 2, 2, 0.35)');
-      ambientGrad.addColorStop(0.5, 'rgba(18, 2, 2, 0.15)');
-      ambientGrad.addColorStop(0.75, 'rgba(18, 2, 2, 0.35)');
-      ambientGrad.addColorStop(1, 'rgba(18, 2, 2, 0.75)');
-      ctx.fillStyle = ambientGrad;
-      ctx.fillRect(0, 0, actualWidth, actualHeight);
-
-      // 2. LAYER 2: Crystal-Clear Hero Stage with BOTH Royal Elephants
-      // Fits the full 1920 scene width across the mobile screen so both
-      // the left elephant, right elephant, and central royal throne are 100% visible!
-      const fgScale = actualWidth / 1920;
-      const fgW = actualWidth;
-      const fgH = Math.round(1080 * fgScale);
-      const fgX = 0;
-      const navOffset = Math.round(15 * dpr);
-      const fgY = Math.round((actualHeight - fgH) / 2) + navOffset;
-
-      ctx.drawImage(img, fgX, fgY, fgW, fgH);
-
-      // Soft feathering at top (chandeliers) and bottom (red carpet)
-      // to seamlessly blend the hero frame into the full-screen palace atmosphere
-      const featherH = Math.round(28 * dpr);
-      const topFade = ctx.createLinearGradient(0, fgY, 0, fgY + featherH);
-      topFade.addColorStop(0, 'rgba(18, 2, 2, 0.75)');
-      topFade.addColorStop(1, 'rgba(18, 2, 2, 0)');
-      ctx.fillStyle = topFade;
-      ctx.fillRect(0, fgY, actualWidth, featherH);
-
-      const botFade = ctx.createLinearGradient(0, fgY + fgH - featherH, 0, fgY + fgH);
-      botFade.addColorStop(0, 'rgba(18, 2, 2, 0)');
-      botFade.addColorStop(1, 'rgba(18, 2, 2, 0.75)');
-      ctx.fillStyle = botFade;
-      ctx.fillRect(0, fgY + fgH - featherH, actualWidth, featherH);
-    } else {
-      // Desktop / landscape viewports: cover calculation
-      const scale = Math.max(actualWidth / 1920, actualHeight / 1080);
-      const drawW = Math.round(1920 * scale);
-      const drawH = Math.round(1080 * scale);
-      const drawX = Math.round((actualWidth - drawW) / 2);
-      const drawY = Math.round((actualHeight - drawH) / 2);
-
-      ctx.drawImage(
-        img,
-        drawX,
-        drawY,
-        drawW,
-        drawH
-      );
-    }
+    ctx.drawImage(
+      img,
+      Math.round(drawX),
+      Math.round(drawY),
+      Math.round(drawW),
+      Math.round(drawH)
+    );
 
     lastRenderedIndexRef.current = frameIndex;
     hasRenderedInitialRef.current = true;
