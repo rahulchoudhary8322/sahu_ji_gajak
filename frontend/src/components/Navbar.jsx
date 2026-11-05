@@ -475,20 +475,27 @@ export default function Navbar({
             aria-label={mobileMenuOpen ? 'Close Menu' : 'Open Royal Menu'}
             aria-expanded={mobileMenuOpen}
           >
-            <svg viewBox="0 0 24 24" className="hamburger-svg" fill="none">
+            <svg viewBox="0 0 24 24" className="hamburger-svg" fill="none" stroke="#F5C65B">
+              <defs>
+                <linearGradient id="burgerGoldGrad" x1="0" y1="0" x2="24" y2="0" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#FFF2B8" />
+                  <stop offset="50%" stopColor="#F5C65B" />
+                  <stop offset="100%" stopColor="#D4A33D" />
+                </linearGradient>
+              </defs>
               {mobileMenuOpen ? (
                 <path
                   d="M6 18L18 6M6 6L18 18"
-                  stroke="url(#navGoldGrad)"
-                  strokeWidth="2.5"
+                  stroke="url(#burgerGoldGrad)"
+                  strokeWidth="2.6"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
               ) : (
                 <>
-                  <path d="M4 6H20" stroke="url(#navGoldGrad)" strokeWidth="2.5" strokeLinecap="round" />
-                  <path d="M4 12H20" stroke="url(#navGoldGrad)" strokeWidth="2.5" strokeLinecap="round" />
-                  <path d="M4 18H20" stroke="url(#navGoldGrad)" strokeWidth="2.5" strokeLinecap="round" />
+                  <path d="M4 6H20" stroke="url(#burgerGoldGrad)" strokeWidth="2.6" strokeLinecap="round" />
+                  <path d="M4 12H20" stroke="url(#burgerGoldGrad)" strokeWidth="2.6" strokeLinecap="round" />
+                  <path d="M4 18H20" stroke="url(#burgerGoldGrad)" strokeWidth="2.6" strokeLinecap="round" />
                 </>
               )}
             </svg>
