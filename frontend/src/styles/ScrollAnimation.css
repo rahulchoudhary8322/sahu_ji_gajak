@@ -226,10 +226,39 @@
   .hero-scroll-container {
     height: 420vh;
   }
+  .canvas-sticky-viewport {
+    background: radial-gradient(circle at 50% 50%, #240404 0%, #140202 70%, #0d0101 100%);
+  }
+  .royal-vignette-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(13, 1, 1, 0.85) 0%,
+      rgba(13, 1, 1, 0.15) 20%,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(13, 1, 1, 0.15) 80%,
+      rgba(13, 1, 1, 0.85) 100%
+    );
+    box-shadow: none;
+  }
   .royal-loader-hud {
-    bottom: 20px;
+    bottom: 24px;
     right: 50%;
     transform: translateX(50%);
     animation: none;
+  }
+  .loader-inner-badge {
+    padding: 10px 18px;
+    min-width: 200px;
+  }
+  .scroll-prompt-wrapper {
+    bottom: 24px;
+  }
+  .scroll-prompt-pill {
+    padding: 8px 18px;
+    gap: 8px;
+  }
+  .scroll-prompt-text {
+    font-size: 11px;
+    letter-spacing: 1px;
   }
 }

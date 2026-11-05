@@ -68,12 +68,35 @@ export default function ScrollAnimation() {
       canvas.height = actualHeight;
     }
 
-    // Cover calculation: match 1920x1080 (16:9) to canvas dimensions without distortion
-    const scale = Math.max(actualWidth / 1920, actualHeight / 1080);
-    const drawW = 1920 * scale;
-    const drawH = 1080 * scale;
-    const drawX = (actualWidth - drawW) / 2;
-    const drawY = (actualHeight - drawH) / 2;
+    // Always clear canvas before painting to eliminate ghosting/artefacts
+    ctx.fillStyle = '#120202';
+    ctx.fillRect(0, 0, actualWidth, actualHeight);
+
+    // Responsive framing calculation:
+    // On mobile portrait (width <= 768px or tall aspect ratio < 1.15),
+    // fit the full 1920 width so both royal elephants on the left and right
+    // flanks and the grand palace gate are 100% visible and uncropped.
+    const isPortraitMobile = canvasWidth <= 768 || (canvasWidth / canvasHeight < 1.15);
+
+    let drawW, drawH, drawX, drawY;
+
+    if (isPortraitMobile) {
+      // Fit full width without cropping the left and right elephants
+      const scale = actualWidth / 1920;
+      drawW = actualWidth;
+      drawH = Math.round(1080 * scale);
+      drawX = 0;
+      // Vertically center with a slight optical balance for the top navbar
+      const navOffset = Math.round(18 * dpr);
+      drawY = Math.round((actualHeight - drawH) / 2) + navOffset;
+    } else {
+      // Desktop / landscape viewports: cover calculation
+      const scale = Math.max(actualWidth / 1920, actualHeight / 1080);
+      drawW = Math.round(1920 * scale);
+      drawH = Math.round(1080 * scale);
+      drawX = Math.round((actualWidth - drawW) / 2);
+      drawY = Math.round((actualHeight - drawH) / 2);
+    }
 
     ctx.drawImage(
       img,
