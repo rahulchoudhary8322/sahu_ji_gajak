@@ -1,13 +1,27 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import '../styles/ScrollAnimation.css';
 
-const TOTAL_FRAMES = 269;
+const DESKTOP_FRAMES = 269;
+const MOBILE_FRAMES = 199;
 const CONCURRENT_DOWNLOAD_LIMIT = 16;
+
+const checkIsMobile = () => {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth <= 768 || (window.innerWidth / window.innerHeight < 1.0);
+};
 
 export default function ScrollAnimation() {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
-  const imagesRef = useRef(new Array(TOTAL_FRAMES));
+
+  // Separate caches for desktop (1920x1080) and mobile (1080x1920) frames
+  const desktopImagesRef = useRef(new Array(DESKTOP_FRAMES));
+  const mobileImagesRef = useRef(new Array(MOBILE_FRAMES));
+
+  const [isMobile, setIsMobile] = useState(checkIsMobile);
+  const isMobileRef = useRef(isMobile);
+  isMobileRef.current = isMobile;
+
   const targetFrameRef = useRef(0);
   const currentFrameRef = useRef(0);
   const animFrameIdRef = useRef(null);
@@ -19,10 +33,13 @@ export default function ScrollAnimation() {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   // Helper to format frame filename
-  const getFrameSrc = (index) => {
+  const getFrameSrc = useCallback((index, forMobile) => {
     const frameNum = String(index + 1).padStart(3, '0');
+    if (forMobile) {
+      return `/mobile-frames/frame-${frameNum}.jpg`;
+    }
     return `/frames/ezgif-frame-${frameNum}.jpg`;
-  };
+  }, []);
 
   // Render a specific frame on the canvas with cover sizing
   const renderFrame = useCallback((frameIndex) => {
@@ -43,21 +60,27 @@ export default function ScrollAnimation() {
       canvas.height = actualHeight;
     }
 
-    // Retrieve target image or nearest loaded fallback from the 269 video frames
-    let img = imagesRef.current[frameIndex];
+    const isPortraitMobile = canvasWidth <= 768 || (canvasWidth / canvasHeight < 1.0);
+    const activeImages = (isPortraitMobile ? mobileImagesRef : desktopImagesRef).current;
+    const total = isPortraitMobile ? MOBILE_FRAMES : DESKTOP_FRAMES;
+
+    const clampedIndex = Math.min(total - 1, Math.max(0, frameIndex));
+
+    // Retrieve target image or nearest loaded fallback
+    let img = activeImages[clampedIndex];
     if (!img || !img.complete || img.naturalWidth === 0) {
       // Find nearest loaded frame backward
-      for (let i = frameIndex - 1; i >= 0; i--) {
-        if (imagesRef.current[i]?.complete && imagesRef.current[i].naturalWidth > 0) {
-          img = imagesRef.current[i];
+      for (let i = clampedIndex - 1; i >= 0; i--) {
+        if (activeImages[i]?.complete && activeImages[i].naturalWidth > 0) {
+          img = activeImages[i];
           break;
         }
       }
       // If none backward, look forward
       if (!img) {
-        for (let i = frameIndex + 1; i < TOTAL_FRAMES; i++) {
-          if (imagesRef.current[i]?.complete && imagesRef.current[i].naturalWidth > 0) {
-            img = imagesRef.current[i];
+        for (let i = clampedIndex + 1; i < total; i++) {
+          if (activeImages[i]?.complete && activeImages[i].naturalWidth > 0) {
+            img = activeImages[i];
             break;
           }
         }
@@ -68,43 +91,16 @@ export default function ScrollAnimation() {
       return false;
     }
 
-    const isPortraitMobile = canvasWidth <= 768 || (canvasWidth / canvasHeight < 1.0);
-
-    // =========================================================================
-    // 1. MOBILE PHONE: 100% FULL-SCREEN REAL 269-FRAME VIDEO ANIMATION
-    //    Full screen height (zero black bars, zero double layers!)
-    //    Elephant realistically walks frame-by-frame on scroll,
-    //    approaches into center, raises trunk in salute, and logo shines!
-    // =========================================================================
     if (isPortraitMobile) {
-      const scale = actualHeight / 1080;
-      const drawW = 1920 * scale;
-      const drawH = actualHeight;
-      const maxDrawX = actualWidth - drawW; // negative offset
-
-      const progress = Math.min(1, Math.max(0, frameIndex / (TOTAL_FRAMES - 1)));
-      const centerX = (actualWidth - drawW) / 2;
-
-      let targetX = 0;
-      if (progress < 0.28) {
-        // Elephant enters and walks into palace: anchor to left edge so entire elephant is in view
-        targetX = 0;
-      } else if (progress < 0.70) {
-        // Elephant walks forward towards the center carpet: smoothly follow its motion
-        const t = (progress - 0.28) / 0.42;
-        const ease = t * t * (3 - 2 * t);
-        targetX = ease * (centerX * 0.75);
-      } else {
-        // Royal trunk salute & Imperial Sahu Ji Gajak logo reveal: smoothly center on throne & emblem
-        const t = (progress - 0.70) / 0.30;
-        const ease = t * t * (3 - 2 * t);
-        const startX = centerX * 0.75;
-        targetX = startX + (centerX - startX) * ease;
-      }
-
-      // Clamp targetX so canvas is 100% filled without any black borders
-      const drawX = Math.max(maxDrawX, Math.min(0, targetX));
-      const drawY = 0;
+      // =========================================================================
+      // 1. MOBILE PHONE: NATIVE 1080x1920 PORTRAIT FRAMES (CLIENT PROVIDED)
+      //    100% full screen height, zero black bars, true elephant video walk!
+      // =========================================================================
+      const scale = Math.max(actualWidth / 1080, actualHeight / 1920);
+      const drawW = 1080 * scale;
+      const drawH = 1920 * scale;
+      const drawX = (actualWidth - drawW) / 2;
+      const drawY = (actualHeight - drawH) / 2;
 
       ctx.drawImage(
         img,
@@ -114,13 +110,13 @@ export default function ScrollAnimation() {
         Math.round(drawH)
       );
 
-      lastRenderedIndexRef.current = frameIndex;
+      lastRenderedIndexRef.current = clampedIndex;
       hasRenderedInitialRef.current = true;
       return true;
     }
 
     // =========================================================================
-    // 2. LAPTOP / DESKTOP: 100% ORIGINAL COVER CALCULATION (ZERO CHANGES!)
+    // 2. LAPTOP / DESKTOP: 100% ORIGINAL 1920x1080 FRAMES (UNTOUCHED!)
     // =========================================================================
     const scale = Math.max(actualWidth / 1920, actualHeight / 1080);
     const drawW = 1920 * scale;
@@ -136,42 +132,48 @@ export default function ScrollAnimation() {
       Math.round(drawH)
     );
 
-    lastRenderedIndexRef.current = frameIndex;
+    lastRenderedIndexRef.current = clampedIndex;
     hasRenderedInitialRef.current = true;
     return true;
   }, []);
 
-  // Preloading sequence
+  // Preloading sequence for active mode
   useEffect(() => {
     let isCancelled = false;
     let loadedCount = 0;
+    const activeIsMobile = isMobile;
+    const totalFrames = activeIsMobile ? MOBILE_FRAMES : DESKTOP_FRAMES;
+    const activeImages = (activeIsMobile ? mobileImagesRef : desktopImagesRef).current;
+
+    setLoadProgress(0);
+    setAllLoaded(false);
 
     // 1. Instantly preload Frame 001 for zero-wait display
     const firstImg = new Image();
     firstImg.onload = () => {
-      imagesRef.current[0] = firstImg;
+      activeImages[0] = firstImg;
       loadedCount++;
       renderFrame(0);
     };
     firstImg.onerror = () => {
-      console.error('Failed to load initial frame 001');
+      console.error(`Failed to load initial frame 001 (${activeIsMobile ? 'mobile' : 'desktop'})`);
     };
-    firstImg.src = getFrameSrc(0);
+    firstImg.src = getFrameSrc(0, activeIsMobile);
 
     // If already cached in browser memory, render immediately
     if (firstImg.complete && firstImg.naturalWidth > 0) {
-      imagesRef.current[0] = firstImg;
+      activeImages[0] = firstImg;
       renderFrame(0);
     }
 
-    // 2. Queue remaining 268 frames with concurrent worker pool
+    // 2. Queue remaining frames with concurrent worker pool
     let currentIndex = 1;
     let activeWorkers = 0;
 
     const loadNext = () => {
       if (isCancelled) return;
 
-      while (activeWorkers < CONCURRENT_DOWNLOAD_LIMIT && currentIndex < TOTAL_FRAMES) {
+      while (activeWorkers < CONCURRENT_DOWNLOAD_LIMIT && currentIndex < totalFrames) {
         const indexToLoad = currentIndex++;
         activeWorkers++;
 
@@ -179,9 +181,9 @@ export default function ScrollAnimation() {
         const onFinished = () => {
           activeWorkers--;
           if (isCancelled) return;
-          imagesRef.current[indexToLoad] = img;
+          activeImages[indexToLoad] = img;
           loadedCount++;
-          const percent = Math.round((loadedCount / TOTAL_FRAMES) * 100);
+          const percent = Math.round((loadedCount / totalFrames) * 100);
           setLoadProgress(percent);
 
           // If current target frame or initial frame just finished, paint immediately
@@ -189,7 +191,7 @@ export default function ScrollAnimation() {
             renderFrame(Math.round(currentFrameRef.current));
           }
 
-          if (loadedCount >= TOTAL_FRAMES) {
+          if (loadedCount >= totalFrames) {
             setAllLoaded(true);
           } else {
             loadNext();
@@ -201,7 +203,7 @@ export default function ScrollAnimation() {
           console.warn(`Frame ${indexToLoad + 1} load failed, continuing`);
           onFinished();
         };
-        img.src = getFrameSrc(indexToLoad);
+        img.src = getFrameSrc(indexToLoad, activeIsMobile);
 
         if (img.complete && img.naturalWidth > 0) {
           onFinished();
@@ -215,24 +217,26 @@ export default function ScrollAnimation() {
     return () => {
       isCancelled = true;
     };
-  }, [renderFrame]);
+  }, [isMobile, getFrameSrc, renderFrame]);
 
   // Priority loader for frames near active scroll position
-  const prioritizeFrame = useCallback((index) => {
-    if (index < 0 || index >= TOTAL_FRAMES) return;
-    if (imagesRef.current[index]) return; // already loading or loaded
+  const prioritizeFrame = useCallback((index, forMobile) => {
+    const total = forMobile ? MOBILE_FRAMES : DESKTOP_FRAMES;
+    if (index < 0 || index >= total) return;
+    const activeImages = (forMobile ? mobileImagesRef : desktopImagesRef).current;
+    if (activeImages[index]) return; // already loading or loaded
 
     const img = new Image();
     img.onload = () => {
-      imagesRef.current[index] = img;
+      activeImages[index] = img;
       if (Math.round(currentFrameRef.current) === index) {
         renderFrame(index);
       }
     };
     img.onerror = () => {};
-    img.src = getFrameSrc(index);
-    imagesRef.current[index] = img;
-  }, [renderFrame]);
+    img.src = getFrameSrc(index, forMobile);
+    activeImages[index] = img;
+  }, [getFrameSrc, renderFrame]);
 
   // Handle scroll position & compute target frame
   useEffect(() => {
@@ -247,14 +251,15 @@ export default function ScrollAnimation() {
 
       const scrolled = -rect.top;
       const progress = Math.min(1, Math.max(0, scrolled / totalScrollable));
-      const targetIndex = Math.min(TOTAL_FRAMES - 1, Math.max(0, Math.round(progress * (TOTAL_FRAMES - 1))));
+      const total = isMobile ? MOBILE_FRAMES : DESKTOP_FRAMES;
+      const targetIndex = Math.min(total - 1, Math.max(0, Math.round(progress * (total - 1))));
 
       targetFrameRef.current = targetIndex;
       setScrollProgress(progress);
 
       // Eagerly prioritize frames surrounding current scroll target
       for (let offset = -3; offset <= 5; offset++) {
-        prioritizeFrame(targetIndex + offset);
+        prioritizeFrame(targetIndex + offset, isMobile);
       }
     };
 
@@ -262,7 +267,7 @@ export default function ScrollAnimation() {
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [prioritizeFrame]);
+  }, [isMobile, prioritizeFrame]);
 
   // Animation render loop with smooth interpolation
   useEffect(() => {
@@ -274,10 +279,11 @@ export default function ScrollAnimation() {
       const target = targetFrameRef.current;
       const current = currentFrameRef.current;
       const diff = target - current;
+      const total = isMobile ? MOBILE_FRAMES : DESKTOP_FRAMES;
 
       if (Math.abs(diff) > 0.04) {
         currentFrameRef.current += diff * 0.25;
-        const roundedIndex = Math.min(TOTAL_FRAMES - 1, Math.max(0, Math.round(currentFrameRef.current)));
+        const roundedIndex = Math.min(total - 1, Math.max(0, Math.round(currentFrameRef.current)));
         if (roundedIndex !== lastRenderedIndexRef.current) {
           renderFrame(roundedIndex);
         }
@@ -302,12 +308,17 @@ export default function ScrollAnimation() {
         cancelAnimationFrame(animFrameIdRef.current);
       }
     };
-  }, [renderFrame]);
+  }, [isMobile, renderFrame]);
 
-  // Window resize handler
+  // Window resize handler (detects device rotation or desktop/mobile toggle)
   useEffect(() => {
     const handleResize = () => {
-      const index = Math.round(currentFrameRef.current);
+      const mobileNow = checkIsMobile();
+      if (mobileNow !== isMobileRef.current) {
+        setIsMobile(mobileNow);
+      }
+      const total = mobileNow ? MOBILE_FRAMES : DESKTOP_FRAMES;
+      const index = Math.min(total - 1, Math.max(0, Math.round(currentFrameRef.current)));
       renderFrame(index);
     };
 
@@ -318,7 +329,7 @@ export default function ScrollAnimation() {
   return (
     <section className="hero-scroll-container" ref={containerRef} id="home">
       <div className="canvas-sticky-viewport">
-        {/* Main Canvas rendering 1920x1080 sequential frames */}
+        {/* Main Canvas rendering sequential video frames */}
         <canvas ref={canvasRef} className="hero-animation-canvas" />
 
         {/* Subtle Ambient Palace Vignette */}
