@@ -304,6 +304,26 @@ export default function App() {
     }
   }, [currentRoute, selectedProduct]);
 
+  // Section navigation helper (for Gallery, About, Contact on home page)
+  const handleNavigateSection = useCallback((sectionId) => {
+    setActiveProductId(null);
+    const scrollTarget = () => {
+      const el = document.getElementById(sectionId) || document.querySelector(`#${sectionId}`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    if (currentRoute !== 'home') {
+      setCurrentRoute('home');
+      window.location.hash = `#${sectionId}`;
+      setTimeout(scrollTarget, 120);
+    } else {
+      window.location.hash = `#${sectionId}`;
+      scrollTarget();
+    }
+  }, [currentRoute]);
+
   // Sync Route with URL hash & query params
   useEffect(() => {
     const handleLocationChange = () => {
@@ -337,6 +357,9 @@ export default function App() {
       } else if (hash === '#wishlist' || params.get('page') === 'wishlist') {
         setCurrentRoute('wishlist');
         window.scrollTo({ top: 0, behavior: 'instant' });
+      } else if (hash === '#about' || hash === '#gallery' || hash === '#contact') {
+        const sectionId = hash.substring(1);
+        handleNavigateSection(sectionId);
       } else if (hash === '#home' || hash === '' || hash === '#shop') {
         if (hash === '#shop') {
           // If hash is #shop and on homepage, smooth scroll to #shop section
@@ -355,7 +378,7 @@ export default function App() {
 
     window.addEventListener('hashchange', handleLocationChange);
     return () => window.removeEventListener('hashchange', handleLocationChange);
-  }, [currentRoute]);
+  }, [currentRoute, handleNavigateSection]);
 
   // Fetch products & categories dynamically from backend API
   useEffect(() => {
@@ -633,6 +656,7 @@ export default function App() {
           onNavigateShop={() => handleNavigateShop('all')}
           onNavigateCart={handleNavigateCart}
           onNavigateWishlist={handleNavigateWishlist}
+          onNavigateSection={handleNavigateSection}
           onSelectCategory={(slug) => handleNavigateShop(slug)}
         />
       )}

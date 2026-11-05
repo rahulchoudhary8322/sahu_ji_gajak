@@ -28,6 +28,14 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+section[id], footer[id] {
+  scroll-margin-top: 85px;
+}
+
 html, body {
   width: 100%;
   max-width: 100%;

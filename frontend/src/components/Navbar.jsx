@@ -19,6 +19,7 @@ export default function Navbar({
   onNavigateShop,
   onNavigateCart,
   onNavigateWishlist,
+  onNavigateSection,
   onSelectCategory
 }) {
   const [active, setActive] = useState(activeItem);
@@ -353,6 +354,10 @@ export default function Navbar({
                           if (onNavigateHome) onNavigateHome();
                         } else {
                           setActive(item.id);
+                          if (onNavigateSection) {
+                            e.preventDefault();
+                            onNavigateSection(item.id.toLowerCase());
+                          }
                         }
                       }}
                     >
@@ -460,7 +465,13 @@ export default function Navbar({
             <a
               href="#contact"
               className="nav-link-btn"
-              onClick={() => setActive('Contact')}
+              onClick={(e) => {
+                setActive('Contact');
+                if (onNavigateSection) {
+                  e.preventDefault();
+                  onNavigateSection('contact');
+                }
+              }}
             >
               <div className="nav-icon-wrapper">{renderIcon('phone')}</div>
               <span className="nav-label-text">Contact</span>
@@ -525,19 +536,30 @@ export default function Navbar({
                     href={item.href}
                     className={`drawer-link ${active === item.id ? 'active' : ''}`}
                     onClick={(e) => {
+                      e.preventDefault();
+                      setActive(item.id);
+                      setMobileMenuOpen(false);
+
                       if (item.id === 'Shop All') {
-                        e.preventDefault();
-                        setActive('Shop All');
-                        setMobileMenuOpen(false);
                         if (onNavigateShop) onNavigateShop();
                       } else if (item.id === 'Home') {
-                        e.preventDefault();
-                        setActive('Home');
-                        setMobileMenuOpen(false);
                         if (onNavigateHome) onNavigateHome();
+                        else {
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
                       } else {
-                        setActive(item.id);
-                        setMobileMenuOpen(false);
+                        // About or Gallery
+                        const targetId = item.id === 'About' ? 'about' : 'gallery';
+                        if (onNavigateSection) {
+                          onNavigateSection(targetId);
+                        } else {
+                          setTimeout(() => {
+                            const target = document.getElementById(targetId) || document.querySelector(item.href);
+                            if (target) {
+                              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                          }, 150);
+                        }
                       }
                     }}
                   >
@@ -576,9 +598,20 @@ export default function Navbar({
                 <a
                   href="#contact"
                   className={`drawer-link ${active === 'Contact' ? 'active' : ''}`}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
                     setActive('Contact');
                     setMobileMenuOpen(false);
+                    if (onNavigateSection) {
+                      onNavigateSection('contact');
+                    } else {
+                      setTimeout(() => {
+                        const target = document.getElementById('contact') || document.querySelector('#contact');
+                        if (target) {
+                          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                      }, 150);
+                    }
                   }}
                 >
                   <span className="drawer-icon">{renderIcon('phone')}</span>
