@@ -9,6 +9,7 @@ export default function ScrollAnimation() {
   const canvasRef = useRef(null);
   const imagesRef = useRef(new Array(TOTAL_FRAMES));
   const mobileImgRef = useRef(null);
+  const trunkUpImgRef = useRef(null);
   const logoImgRef = useRef(null);
   const targetFrameRef = useRef(0);
   const currentFrameRef = useRef(0);
@@ -26,10 +27,11 @@ export default function ScrollAnimation() {
     return `/frames/ezgif-frame-${frameNum}.jpg`;
   };
 
-  // Preload dedicated full-screen mobile elephant artwork & royal crest
+  // Preload dedicated full-screen mobile elephant artworks & royal crest
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
+    // 1. Walking elephant pose (front view)
     const mImg = new Image();
     mImg.onload = () => {
       mobileImgRef.current = mImg;
@@ -42,6 +44,17 @@ export default function ScrollAnimation() {
       mobileImgRef.current = mImg;
     }
 
+    // 2. Trunk-up royal salute pose (front view)
+    const tImg = new Image();
+    tImg.onload = () => {
+      trunkUpImgRef.current = tImg;
+    };
+    tImg.src = '/assets/royal-elephant-trunk-up.jpg';
+    if (tImg.complete && tImg.naturalWidth > 0) {
+      trunkUpImgRef.current = tImg;
+    }
+
+    // 3. 3D Royal Gold Logo badge
     const crest = new Image();
     crest.onload = () => {
       logoImgRef.current = crest;
@@ -75,68 +88,104 @@ export default function ScrollAnimation() {
 
     // =========================================================================
     // 1. MOBILE PHONE: DEDICATED FULL-SCREEN FRONT-FACING ROYAL ELEPHANT
-    //    Single unified full-screen animation, elephant comes forward from front!
+    //    Elephant walks forward on scroll, raises trunk at end, then logo appears!
     // =========================================================================
     if (isPortraitMobile) {
       const mImg = mobileImgRef.current;
+      const tImg = trunkUpImgRef.current;
+
       if (!mImg || !mImg.complete || mImg.naturalWidth === 0) {
         ctx.fillStyle = '#120202';
         ctx.fillRect(0, 0, actualWidth, actualHeight);
         return false;
       }
 
-      // True 100% full-screen cover on mobile: ZERO black bars, NO double layer!
+      // Base cover scale on mobile (ZERO black bars, ZERO double layers!)
       const baseScale = Math.max(actualWidth / mImg.naturalWidth, actualHeight / mImg.naturalHeight);
 
-      // Smooth scroll pacing: elephant walks majestically down the red carpet towards patron
+      // Current smooth scroll progress from 0 to 1
       const progress = Math.min(1, Math.max(0, currentFrameRef.current / (TOTAL_FRAMES - 1)));
-      const zoom = 1.0 + progress * 0.42;
+
+      // --- A. WALKING GAIT & FORWARD STEP ADVANCE (Progress 0.0 to 0.70) ---
+      // Realistic rhythmic weight shifting (left/right footstep sway + vertical step lift)
+      const walkFactor = Math.min(1, progress / 0.70);
+      const walkCycle = walkFactor * 12 * Math.PI;
+      // Gently settle walking sway as elephant plants feet to raise trunk
+      const gaitDampen = Math.max(0, 1 - Math.max(0, (progress - 0.62) / 0.08));
+      const swayX = Math.sin(walkCycle) * (6 * dpr) * gaitDampen;
+      const bobY = Math.abs(Math.sin(walkCycle * 2)) * (4.5 * dpr) * gaitDampen;
+
+      // Elephant approaches forward along the red carpet directly toward patron
+      const zoom = 1.0 + progress * 0.40;
       const scale = baseScale * zoom;
 
       const drawW = Math.round(mImg.naturalWidth * scale);
       const drawH = Math.round(mImg.naturalHeight * scale);
-      const drawX = Math.round((actualWidth - drawW) / 2);
+      const drawX = Math.round((actualWidth - drawW) / 2) + Math.round(swayX);
 
-      // Smooth focal camera tracking onto the elephant's ornate forehead & gold jewelry
+      // Smooth focal camera tracking onto the elephant's ornate forehead & golden tusks
       const focalYRatio = 0.52 - progress * 0.05;
-      const drawY = Math.round(actualHeight * 0.5 - (mImg.naturalHeight * focalYRatio) * scale);
+      const drawY = Math.round(actualHeight * 0.5 - (mImg.naturalHeight * focalYRatio) * scale) + Math.round(bobY);
 
-      ctx.drawImage(mImg, drawX, drawY, drawW, drawH);
+      // --- B. TRUNK RAISED SALUTE (Progress 0.68 to 1.0) ---
+      // At the climax of the walk, the elephant proudly raises its trunk high in royal salute!
+      let saluteAlpha = 0;
+      if (progress >= 0.68 && tImg?.complete && tImg.naturalWidth > 0) {
+        saluteAlpha = Math.min(1, (progress - 0.68) / 0.12);
+      }
 
-      // Warm royal golden sunlight & ambient glow as patron approaches
-      if (progress > 0.04) {
-        const glowAlpha = Math.min(0.24, progress * 0.3);
+      // Draw walking pose (fading out as trunk raises)
+      if (saluteAlpha < 1) {
+        ctx.save();
+        ctx.globalAlpha = 1 - saluteAlpha;
+        ctx.drawImage(mImg, drawX, drawY, drawW, drawH);
+        ctx.restore();
+      }
+
+      // Draw trunk-raised royal salute pose
+      if (saluteAlpha > 0 && tImg) {
+        ctx.save();
+        ctx.globalAlpha = saluteAlpha;
+        ctx.drawImage(tImg, drawX, drawY, drawW, drawH);
+        ctx.restore();
+      }
+
+      // --- C. CELEBRATORY RADIANCE & GOLDEN SUNBURST (When trunk raises) ---
+      if (progress > 0.65) {
+        const auraProgress = (progress - 0.65) / 0.35;
+        const glowAlpha = Math.min(0.32, auraProgress * 0.42);
         const radialGlow = ctx.createRadialGradient(
           actualWidth / 2,
-          actualHeight * 0.48,
-          actualWidth * 0.1,
+          actualHeight * 0.38,
+          actualWidth * 0.08,
           actualWidth / 2,
-          actualHeight * 0.48,
-          actualWidth * 0.8
+          actualHeight * 0.45,
+          actualWidth * 0.85
         );
-        radialGlow.addColorStop(0, `rgba(245, 198, 91, ${glowAlpha})`);
-        radialGlow.addColorStop(0.5, `rgba(212, 163, 61, ${glowAlpha * 0.4})`);
+        radialGlow.addColorStop(0, `rgba(255, 225, 130, ${glowAlpha})`);
+        radialGlow.addColorStop(0.45, `rgba(212, 163, 61, ${glowAlpha * 0.55})`);
         radialGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
         ctx.fillStyle = radialGlow;
         ctx.fillRect(0, 0, actualWidth, actualHeight);
       }
 
-      // Royal 3D Gold Sahu Ji Gajak crest reveal (from 35% to 100% scroll)
-      if (progress > 0.35 && logoImgRef.current?.complete) {
-        const logoProgress = Math.min(1, (progress - 0.35) / 0.45);
+      // --- D. IMPERIAL "SAHU JI GAJAK" LOGO REVEAL (Progress 0.80 to 1.0) ---
+      // Right as the trunk is raised up high in royal salute, the 3D gold logo appears!
+      if (progress > 0.80 && logoImgRef.current?.complete) {
+        const logoProgress = Math.min(1, (progress - 0.80) / 0.18);
         const logoImg = logoImgRef.current;
-        const logoTargetW = Math.min(actualWidth * 0.72, 330 * dpr);
+        const logoTargetW = Math.min(actualWidth * 0.74, 340 * dpr);
         const logoTargetH = logoTargetW * (logoImg.naturalHeight / logoImg.naturalWidth);
-        const logoScale = 0.88 + logoProgress * 0.12;
+        const logoScale = 0.84 + logoProgress * 0.16;
         const finalW = logoTargetW * logoScale;
         const finalH = logoTargetH * logoScale;
         const logoX = (actualWidth - finalW) / 2;
-        const logoY = actualHeight * 0.42 - finalH / 2;
+        const logoY = actualHeight * 0.46 - finalH / 2;
 
         ctx.save();
-        ctx.globalAlpha = Math.min(1, logoProgress * 1.25);
-        ctx.shadowColor = 'rgba(212, 163, 61, 0.9)';
-        ctx.shadowBlur = 25 * dpr;
+        ctx.globalAlpha = Math.min(1, logoProgress * 1.35);
+        ctx.shadowColor = 'rgba(212, 163, 61, 0.95)';
+        ctx.shadowBlur = 30 * dpr;
         ctx.drawImage(logoImg, logoX, logoY, finalW, finalH);
         ctx.restore();
       }
